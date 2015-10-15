@@ -12,5 +12,5 @@ setup(
   download_url = 'https://github.com/Krokop/python-xmlstats/tarball/0.4',
   keywords = ['NBA stas api', 'xmlstats', 'NBA API', 'nba api stats'],
   classifiers = [],
-  install_requires=['python-dateutil',],
+  install_requires=[],
 )
