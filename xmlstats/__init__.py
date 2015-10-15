@@ -92,7 +92,7 @@ class XMLStats:
         else:
             data = response.read()
 
-        return data
+        return json.loads(data)
 
     def _build_url(self, host, sport, method, id, format, parameters):
         """
