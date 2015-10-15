@@ -58,7 +58,7 @@ class XMLStats:
 
     def __init__(self, access_token, email):
         self.access_token = access_token
-        self.user_agent = "python-xmlstats/0.7 ({email})".format(email)
+        self.user_agent = "python-xmlstats/0.7 ({email})".format(email=email)
         urllib.request.install_opener(urllib.request.build_opener(TLS1Handler()))
 
     def make_request(self, host, sport, method, id, format, parameters):
