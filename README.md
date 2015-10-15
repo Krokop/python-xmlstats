@@ -9,7 +9,7 @@ pip3 install python-xmlstats
 ```python
 from xmlstats import XMLStats
 
-stats = XMLStats(access_token='xxxxxxxxxxxxxxxxxxxxxxxxxxx',
+stats = XMLStats(access_token='xxxxxxxxxxxxxxxxxxxxxxxxxxx', # access token you must get https://erikberg.com/api
                  user_agent='xxxxxxxx') # Replace with your bot name and email/website 
                                         #   to contact if there is a problem
                                         #   e.g., "mybot/0.1 (https://erikberg.com/)"
