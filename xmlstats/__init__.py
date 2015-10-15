@@ -7,8 +7,6 @@ import urllib
 import urllib.request
 import gzip
 import json
-import datetime
-import dateutil.parser
 import socket
 import ssl
 
@@ -78,8 +76,9 @@ class XMLStats:
             response = urllib.request.urlopen(req)
         except urllib.request.HTTPError as err:
             raise ServerError(
-                "Server returned {} error code!\n{}".format(
-                    err.code, err.read()))
+                "Server returned {code} error code!\n{message}".format(
+                    code=err.code,
+                    message=json.loads(err.read().decode('utf-8'))))
         except urllib.request.URLError as err:
             raise UrlError(
                 "Error retrieving file: {}".format(
