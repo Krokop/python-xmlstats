@@ -78,7 +78,7 @@ class XMLStats:
             raise ServerError(
                 "Server returned {code} error code!\n{message}".format(
                     code=err.code,
-                    message=json.loads(err.read().decode('utf-8'))))
+                    message=json.loads(err.read().decode('utf-8'))), err.code)
         except urllib.request.URLError as err:
             raise UrlError(
                 "Error retrieving file: {}".format(
