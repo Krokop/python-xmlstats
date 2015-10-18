@@ -9,6 +9,8 @@ import gzip
 import json
 import socket
 import ssl
+from time import sleep
+from datetime import datetime
 
 
 class ServerError(Exception):
@@ -75,6 +77,13 @@ class XMLStats:
         try:
             response = urllib.request.urlopen(req)
         except urllib.request.HTTPError as err:
+            if err.code == 429:
+                future = int(err.headers['xmlstats-api-reset'])
+                now = int(datetime.now().strftime('%s'))
+                delta = future-now
+                print('wait {0} sec'.format(delta))
+                sleep(delta)
+                return self.make_request(host, sport, method, id, format, parameters)
             raise ServerError(
                 "Server returned {code} error code!\n{message}".format(
                     code=err.code,
