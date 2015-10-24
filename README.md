@@ -18,3 +18,11 @@ responce = stats.make_request(host="erikberg.com", sport=None, method="events",
                               parameters={'sport': 'nba', 'date':'20130414'})
 
 ```
+
+##Get teams
+```python
+stats = XMLStats(access_token='xxxxxxxxxxxxxxxxxxxxxxxxxxx',
+                 email='some@email.com')
+teams = stats.get_teams()
+```
+

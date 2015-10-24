@@ -48,16 +48,6 @@ class TLS1Handler(urllib.request.HTTPSHandler):
 
 class XMLStats:
 
-    # host = "erikberg.com"
-    # sport = "nba"
-    # method = "events"
-    # id = None
-    # format = "json"
-    # parameters = {
-    #    'sport': 'nba',
-    #     'date': '20130414'
-    # }
-
     def __init__(self, access_token, email):
         self.access_token = access_token
         self.user_agent = "python-xmlstats/0.7 ({email})".format(email=email)
@@ -113,3 +103,10 @@ class XMLStats:
             paramstring = urllib.parse.urlencode(parameters)
             url = url + "?" + paramstring
         return url
+
+    def get_teams(self):
+        """ Return json current roster of team """
+        return self.make_request(host="erikberg.com", sport='nba',
+                                 method="teams", id=None,
+                                 format="json",
+                                 parameters={})
