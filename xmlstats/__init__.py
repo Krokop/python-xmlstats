@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 import sys
 import io
-import http.client
-import http
 import urllib
-import urllib.request
+if sys.version_info < (3, 0):
+    import urllib2 as request
+else:
+    from urllib import request
 import gzip
 import json
-import socket
-import ssl
 from time import sleep
 from datetime import datetime
+
+__version__ = "1.0.0"
 
 
 class ServerError(Exception):
@@ -31,13 +32,14 @@ class XMLStats:
 
     def __init__(self, access_token, email):
         self.access_token = access_token
-        self.user_agent = "python-xmlstats/0.7 ({email})".format(email=email)
+        self.user_agent = "python-xmlstats/{version} ({email})".format(email=email,
+                                                                       version=__version__)
 
     def make_request(self, host, sport, method, id, format, parameters):
 
         url = self._build_url(host, sport, method,
                               id, format, parameters)
-        req = urllib.request.Request(url)
+        req = request.Request(url)
         req.add_header("Authorization", "Bearer " + self.access_token)
         # Set user agent
         req.add_header("User-agent", self.user_agent)
@@ -45,8 +47,8 @@ class XMLStats:
         req.add_header("Accept-encoding", "gzip")
 
         try:
-            response = urllib.request.urlopen(req)
-        except urllib.request.HTTPError as err:
+            response = request.urlopen(req)
+        except request.HTTPError as err:
             if err.code == 429:
                 future = int(err.headers['xmlstats-api-reset'])
                 now = int(datetime.now().strftime('%s'))
@@ -58,7 +60,7 @@ class XMLStats:
                 "Server returned {code} error code!\n{message}".format(
                     code=err.code,
                     message=json.loads(err.read().decode('utf-8'))), err.code)
-        except urllib.request.URLError as err:
+        except request.URLError as err:
             raise UrlError(
                 "Error retrieving file: {}".format(
                     err.reason))
