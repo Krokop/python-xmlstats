@@ -27,31 +27,11 @@ class UrlError(Exception):
     pass
 
 
-class TLS1Connection(http.client.HTTPSConnection):
-    def __init__(self, *args, **kwargs):
-        http.client.HTTPSConnection.__init__(self, *args, **kwargs)
-
-    def connect(self):
-        sock = socket.create_connection((self.host, self.port), self.timeout)
-        if self._tunnel_host:
-            self.sock = sock
-            self._tunnel()
-
-        self.sock = ssl.wrap_socket(sock, self.key_file, self.cert_file,
-                                    ssl_version=ssl.PROTOCOL_TLSv1)
-
-
-class TLS1Handler(urllib.request.HTTPSHandler):
-    def https_open(self, req):
-        return self.do_open(TLS1Connection, req)
-
-
 class XMLStats:
 
     def __init__(self, access_token, email):
         self.access_token = access_token
         self.user_agent = "python-xmlstats/0.7 ({email})".format(email=email)
-        urllib.request.install_opener(urllib.request.build_opener(TLS1Handler()))
 
     def make_request(self, host, sport, method, id, format, parameters):
 
